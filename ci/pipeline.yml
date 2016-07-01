@@ -1,0 +1,39 @@
+jobs:
+- name: Build-php-img
+  public: true
+  serial: true
+  plan: 
+  - aggregate:
+    get: cflinuxfs2-image
+    get: php_buildpack
+    globs: "php*"
+  put: build-img
+    params:
+    load_base: cflinuxfs2-image
+
+
+
+resources:
+- name: php_buildpack
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: php_buildpack
+    tag: "v4.3.14"
+
+
+- name: cflinuxfs2-image
+  type: docker-image
+  source:
+    repository: cloudfoundry/cflinuxfs2
+
+- name: cflinuxfs2-php-image
+  type: docker-image
+  source:
+    repository: getourneau/cflinuxfs2-php
+    email: {{email-docker-hub}}
+    username: {{username-docker-hub}}
+    password: {{password-docker-hub}}
+
+
+

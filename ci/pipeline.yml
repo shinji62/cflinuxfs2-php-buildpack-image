@@ -2,14 +2,21 @@ jobs:
 - name: Build-php-img
   public: true
   serial: true
-  plan: 
+  plan:
   - aggregate:
-    get: cflinuxfs2-image
-    get: php_buildpack
-    globs: "php*"
-  put: build-img
+    - get: cflinuxfs2-php-git
+    - get: cflinuxfs2-image
+      params:
+        save: true
+    - get: php_buildpack
+      version:
+        tag: v4.3.14
+  - put: cflinuxfs2-php-image
     params:
-    load_base: cflinuxfs2-image
+      build: php_buildpack/
+      dockerfile: cflinuxfs2-php-git/dockerFile
+      load_base: cflinuxfs2-image
+      tag: php_buildpack/version
 
 
 
@@ -18,8 +25,16 @@ resources:
   type: github-release
   source:
     user: cloudfoundry
-    repository: php_buildpack
-    tag: "v4.3.14"
+    repository: php-buildpack
+    access_token: {{github-access-token}}
+
+
+- name: cflinuxfs2-php-git
+  type: git
+  source:
+    branch: master
+    private_key: {{private-key-github-concourse}}
+    uri: git@github.com:shinji62/cflinuxfs2-php-buildpack-image.git
 
 
 - name: cflinuxfs2-image

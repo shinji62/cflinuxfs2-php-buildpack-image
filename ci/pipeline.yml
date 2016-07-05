@@ -11,12 +11,13 @@ jobs:
     - get: php_buildpack
       version:
         tag: v4.3.14
+  - task: merge-dir
+    file: cflinuxfs2-php-git/ci/merge-dir/merge-dir.yml
   - put: cflinuxfs2-php-image
     params:
-      build: php_buildpack/
-      dockerfile: cflinuxfs2-php-git/dockerFile
+      build: php_plus_dockerfile/
       load_base: cflinuxfs2-image
-      tag: php_buildpack/version
+      tag: php_plus_dockerfile/php_buildpack/version
 
 
 

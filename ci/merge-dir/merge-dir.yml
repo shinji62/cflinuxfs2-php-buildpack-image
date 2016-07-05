@@ -1,0 +1,23 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: concourse/busyboxplus
+    tag: base
+inputs:
+  - name: cflinuxfs2-php-git
+  - name: php_buildpack
+outputs:
+  - name: php_plus_dockerfile
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      cd php_buildpack
+        FILESSHA=$(echo php_buildpack-*.SHA256SUM.txt)
+        sha256sum -c "$FILESSHA"
+      cd -  
+      cp -R php_buildpack/ php_plus_dockerfile/
+      cp -R cflinuxfs2-php-git/Dockerfile  php_plus_dockerfile/

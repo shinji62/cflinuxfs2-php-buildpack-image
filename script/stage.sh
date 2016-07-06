@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e -u -x
 root=$PWD
 export CF_STACK=cflinuxfs2
 cp -Rr $root/app-source/. /home/vcap/app/

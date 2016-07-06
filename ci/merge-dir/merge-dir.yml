@@ -21,3 +21,4 @@ run:
       cd -  
       cp -R php_buildpack/ php_plus_dockerfile/
       cp -R cflinuxfs2-php-git/Dockerfile  php_plus_dockerfile/
+      cp -R cflinuxfs2-php-git/script  php_plus_dockerfile/
